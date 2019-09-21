@@ -38,7 +38,7 @@ export default {
     duration: { type: Number, default: 1 }
   },
   data: () => ({
-    generator: new SvgGenerator(),
+    generator: null,
     path: "",
     animation: 0,
     tween: null
@@ -46,6 +46,15 @@ export default {
   computed: {
     viewBox() {
       return `0 0 ${200} ${100}`;
+    }
+  },
+  watch: {
+    shouldAnimate() {
+      if (this.shouldAnimate) {
+        this.init();
+      } else {
+        this.clear();
+      }
     }
   },
   created() {
@@ -56,6 +65,7 @@ export default {
   },
   methods: {
     init() {
+      this.generator = new SvgGenerator();
       this.path = this.generator.get(this.zones);
 
       if (this.shouldAnimate) {
